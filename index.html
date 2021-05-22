@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+	<title>Felicita CSE Live Score</title>
+	<div class="bg"></div>
+<div class="bg bg2"></div>
+<div class="bg bg3"></div>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
+</head>
+<body>
+
+<h1><span class="blue">&lt;</span><span class="blue"></span> <span class="yellow">festadaddio</pan></h1>
+	<h2>a fun interactive session by Department of<a> <i style="color: aquamarine;">CSE</i></a></h2>
+
+<main>
+
+</main>
+
+
+	
+<script>
+	function run(){
+		$('main').append(`
+			<table class="container">
+					<thead>
+						<tr class="head">
+
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>`);
+
+				//Edit this
+			$.getJSON('https://spreadsheets.google.com/feeds/cells/1fp8mSuzFIk5y9Zjd6EXveeLlAYmPkQ1Cct0yxilJvRc/1/public/full?alt=json', function(data) {
+
+		  var rows=parseInt(data['feed']['gs$rowCount']['$t']);
+		  var cols=parseInt(data['feed']['gs$colCount']['$t']);
+		  var arr=[...Array(rows)].map(x=>Array(cols).fill(0))  
+		  //console.log(arr)
+		  for(let i=0;i<data['feed']['entry'].length;i++){
+			  row=data['feed']['entry'][i]['gs$cell']['row']-1
+			  col=data['feed']['entry'][i]['gs$cell']['col']-1
+			  val=data['feed']['entry'][i]['gs$cell']['inputValue']
+			  //console.log(row,col,val);
+			  arr[row][col]=val;
+	
+		  }
+		  //console.log(arr);
+		headarr=arr[0]
+		for(let i=0;i<headarr.length;i++){
+			$(".head").append(`<th><h1 style="color:white;">${headarr[i]}</h1></th>`)
+		}
+
+		for(let i=1;i<arr.length;i++){
+			ele=`<tr>`;
+				
+				for(let j=0;j<arr[i].length;j++){
+					ele+=`<td>${arr[i][j]}</td>`
+
+				}
+			ele+=`</tr>`;
+			$('tbody').append(ele)
+			//console.log(ele);
+		}
+
+		});
+	}
+	function rerun(){
+
+
+		///Edit this link
+			$.getJSON('https://spreadsheets.google.com/feeds/cells/1fp8mSuzFIk5y9Zjd6EXveeLlAYmPkQ1Cct0yxilJvRc/1/public/full?alt=json', function(data) {
+				document.querySelector('.container').remove();
+				$('main').append(`
+			<table class="container">
+					<thead>
+						<tr class="head">
+
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>`);
+				var rows=parseInt(data['feed']['gs$rowCount']['$t']);
+		  var cols=parseInt(data['feed']['gs$colCount']['$t']);
+		  var arr=[...Array(rows)].map(x=>Array(cols).fill(0))  
+		  //console.log(arr)
+		  for(let i=0;i<data['feed']['entry'].length;i++){
+			  row=data['feed']['entry'][i]['gs$cell']['row']-1
+			  col=data['feed']['entry'][i]['gs$cell']['col']-1
+			  val=data['feed']['entry'][i]['gs$cell']['inputValue']
+			  //console.log(row,col,val);
+			  arr[row][col]=val;
+	
+		  }
+		  //console.log(arr);
+		headarr=arr[0]
+		for(let i=0;i<headarr.length;i++){
+			$(".head").append(`<th><h1 style="color:white;">${headarr[i]}</h1></th>`)
+		}
+
+		for(let i=1;i<arr.length;i++){
+			ele=`<tr>`;
+				for(let j=0;j<arr[i].length;j++){
+					ele+=`<td>${arr[i][j]}</td>`
+				}
+			ele+=`</tr>`;
+			$('tbody').append(ele)
+			//console.log(ele);
+		}
+			
+			
+			
+			
+			
+			});
+			
+	}
+		
+
+	run();
+	setInterval(rerun, 2000);
+
+</script>
+
+</body>
+				
+
+</html>
